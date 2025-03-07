@@ -1,16 +1,11 @@
 import { mysqlTable, varchar, int, timestamp, text, mysqlEnum } from 'drizzle-orm/mysql-core'
 
-export const PetSpecies = {
-    DOG: 'DOG',
-    CAT: 'CAT'
-} as const;
-
-export type PetSpecies = typeof PetSpecies[keyof typeof PetSpecies];
+export const PetSpecies = ['DOG', 'CAT'] as const;
 
 export const pets = mysqlTable('pets', {
     id: int('id').primaryKey().autoincrement(),
     name: varchar('name', { length: 100 }).notNull(),
-    species: mysqlEnum('species', Object.values(PetSpecies)).notNull(),
+    species: mysqlEnum('species', PetSpecies).notNull(),
     breed: varchar('breed', { length: 100 }).notNull(),
     age: int('age').notNull(),
     price: int('price').notNull(),
